@@ -1,6 +1,6 @@
 #include <ip_work/pathPlanning.h>
 
-pathPlanning::pathPlanning(ros::NodeHandle node){
+pathPlanning::pathPlanning(ros::NodeHandle &node){
 
 	//set parameters from the node
 	node.param("map_width", map_width_, 3);
@@ -9,6 +9,7 @@ pathPlanning::pathPlanning(ros::NodeHandle node){
 
 	//set up the publishers
 	map_publisher_ = node.advertise<nav_msgs::OccupancyGrid>("map", 1);
+	ros::Duration(0.5).sleep();
 }
 
 pathPlanning::~pathPlanning(){}
@@ -27,10 +28,13 @@ void pathPlanning::set_map(){
 	
 	number_of_cells_ = (map_width_ * map_height_)/(resolution_ * resolution_);
 
+	// Allocate space to hold the data
+	map.data.resize(number_of_cells_);
+
 	for(int i = 0; i<number_of_cells_; i++)
 		map.data[i] = 0;
 
         ROS_INFO("Map Initialized!!");
 
-	map_publisher_.publish(map); 	
+	map_publisher_.publish(map);
 }
