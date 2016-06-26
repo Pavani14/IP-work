@@ -2,10 +2,14 @@
 
 pathPlanning::pathPlanning(ros::NodeHandle &node){
 
+	map_width_  = 3; 
+	map_height_ = 10;
+	resolution_ = 0.5;
+	
 	//set parameters from the node
-	node.param("map_width", map_width_, 3);
-	node.param("map_height", map_height_, 10);
-	node.param("map_resolution", resolution_, 0.5);
+	node.setParam("map_width", map_width_);
+	node.setParam("map_height", map_height_);
+	node.setParam("map_resolution", resolution_5);
 
 	//set up the publishers
 	map_publisher_ = node.advertise<nav_msgs::OccupancyGrid>("map", 1);
